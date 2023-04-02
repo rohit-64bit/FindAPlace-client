@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+
+* {
+    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    scroll-behavior: smooth;
+}
+
+@tailwind utilities;
