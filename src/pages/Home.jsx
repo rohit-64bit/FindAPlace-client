@@ -1,5 +1,5 @@
 import React from 'react'
-import Location from '../assets/Image/homeLocation2.png'
+import Hero from '../assets/Image/hero.svg'
 import Items from '../components/Items'
 import Review from '../components/Review'
 import { Link } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const Home = () => {
     return (
         <>
-            <div className='w-full flex lg:justify-between px-4 lg:px-10 h-full duration-300 items-center'>
+            <div className='w-full flex lg:justify-between px-4 lg:px-10 h-[70vh] duration-300 items-center'>
 
                 <div className='flex justify-center flex-col gap-5 px-[7%] absolute lg:relative'>
                     <div className='text-[#4DD637] text-2xl lg:text-4xl font-semibold'>A PLACE OF YOUR CHOICE</div>
@@ -23,7 +23,7 @@ const Home = () => {
                 </div>
 
                 <div className='lg:w-[50%] w-full flex md:justify-center'>
-                    <img className='w-auto md:w-[50%] lg:w-[70%] opacity-10 lg:opacity-100' src={Location} alt="Image" />
+                    <img className='w-auto md:w-[50%] lg:w-[70%] opacity-10 lg:opacity-100' src={Hero} alt="Image" />
                 </div>
             </div>
 
