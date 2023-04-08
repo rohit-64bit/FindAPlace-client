@@ -84,7 +84,7 @@ const Header = () => {
 
 
                 {navBarOpen ? "" :
-                    <div className='h-12 flex justify-center w-full'>
+                    <div className='h-12 flex justify-center w-full my-1'>
                         <div className='flex justify-center items-center h-full w-[90%] md:w-[80%] lg:w-[50%] shadow-md rounded-full gap-3 p-1 border-2'>
                             <div className='flex w-full '>
                                 <input type="text" className='bg-transparent px-3 py-2 outline-none w-full' placeholder='Search for Location...' />

@@ -25,7 +25,7 @@ const Footer = () => {
                         <Link className='hover:text-white/80 duration-200 focus:text-white/70'>Refund Policy</Link>
                     </div>
                 </div>
-                <div className='lg:w-[30%] w-full flex flex-col gap-3 px-5 md:px-20 lg:px-0'>
+                <div className='lg:w-[40%] xl:w-[30%] w-full flex flex-col gap-3 px-5 md:px-20 lg:px-0'>
                     <div className='text-white font-semibold'>Subscribe</div>
                     <div className='flex rounded-full bg-white lg:w-max'>
                         <input className='px-4 py-1 outline-none focus:shadow-lg shadow-md duration-300 rounded-l-full w-full' type="text" placeholder='Enter Your Email...'/>

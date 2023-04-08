@@ -6,7 +6,7 @@ const Login = () => {
     return (
         <>
             <div className='h-screen w-full flex items-center justify-between duration-300'>
-                <div className='flex flex-col w-full px-[5%] md:px-[11%] lg:w-[50%] gap-4 absolute lg:relative bg-black/60 lg:bg-white h-full justify-center'>
+                <div className='flex flex-col w-full px-[5%] md:px-[11%] lg:w-[50%] gap-4 absolute lg:relative bg-white/80 lg:bg-white h-full justify-center'>
                     <div className='text-3xl text-[#4DD637] font-semibold px-2'>Login</div>
                     <input className='px-5 py-2 rounded-full outline-none focus:shadow-xl lg:focus:shadow-lg duration-300 lg:bg-gray-200/50 bg-gray-100' type="text" placeholder='Email' />
                     <input className='px-5 py-2 rounded-full outline-none focus:shadow-xl lg:focus:shadow-lg duration-300 lg:bg-gray-200/50 bg-gray-100' type="password" placeholder='Enter Password' />
