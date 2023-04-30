@@ -36,7 +36,7 @@ const ListProperty = () => {
                         </button>
                     </div>
                     <div className='w-full lg:px-10'>
-                        <button className='bg-[#4DD637] w-full py-1.5 font-semibold text-white rounded-md'>LIST PLACE</button>
+                        <button className='bg-[#4DD637] w-full py-1.5 font-semibold text-white rounded-md hover:shadow-md duration-300'>LIST PLACE</button>
                     </div>
                 </div>
             </div>

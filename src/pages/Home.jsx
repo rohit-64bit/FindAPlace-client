@@ -28,7 +28,7 @@ const Home = () => {
             </div>
 
             <div className='bg-[#CAD5E2]/40 flex justify-center flex-col py-4 lg:py-5 w-full'>
-                <div className='text-[#4DD637] text-lg font-semibold flex justify-center w-full'>TOP RATED PLACE</div>
+                <div className='text-[#4DD637] text-lg font-semibold flex justify-center w-full cursor-default'>TOP RATED PLACE</div>
                 <div className='grid w-full md:grid-cols-2 lg:grid-cols-4 gap-5 px-4 lg:px-5 py-5'>
                     <Items />
                     <Items />
@@ -38,7 +38,7 @@ const Home = () => {
             </div>
 
             <div className='bg-white flex justify-center flex-col w-full py-4 lg:py-5'>
-                <div className='text-[#4DD637] text-lg font-semibold flex justify-center'>CUSTOMER REVIEWS</div>
+                <div className='text-[#4DD637] text-lg font-semibold flex justify-center cursor-default'>CUSTOMER REVIEWS</div>
                 <div className='grid w-full md:grid-cols-2 lg:grid-cols-4 gap-5 px-4 lg:px-5 py-5'>
                     <Review />
                     <Review />
@@ -48,7 +48,7 @@ const Home = () => {
             </div>
 
             <div className='bg-[#CAD5E2]/40 py-8 lg:py-10 '>
-                <div className='text-[#4DD637] text-lg font-semibold flex justify-center py-5'>CONTACT US</div>
+                <div className='text-[#4DD637] text-lg font-semibold flex justify-center py-5 cursor-default'>CONTACT US</div>
                 <div className='flex flex-col items-center gap-5 w-full px-4 md:px-10'>
                     <div className='flex flex-col md:flex-row gap-5 w-full lg:w-[40%] duration-300'>
                         <input className='px-5 py-2 rounded-full shadow-lg outline-none focus:shadow-xl duration-300 w-full' type="text" placeholder='Name' />
@@ -59,7 +59,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className='bg-white flex justify-center py-10 w-full'>
+            <div className='bg-white flex justify-center py-10 w-full cursor-default'>
                 <div className='p-5 flex flex-col items-center w-full md:w-[75%] lg:w-[25%]'>
                     <div className='flex text-center py-3 font-semibold text-black/60'>lorem ipsum sample text message from the owner of the website</div>
                     <div className='text-black font-bold text-lg'>OWNER NAME</div>

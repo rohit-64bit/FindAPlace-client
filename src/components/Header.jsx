@@ -40,11 +40,11 @@ const Header = () => {
                         </Link>
 
                         <div className='flex gap-1 items-center px-5 font-semibold'>
-                            <Link>
+                            <Link to="/login">
                                 <button className='py-1 hover:text-[#4DD637] duration-200'>LOGIN</button>
                             </Link>
                             /
-                            <Link>
+                            <Link to="/signup">
                                 <button className='py-1 hover:text-[#4DD637] duration-200'>SIGNUP</button>
                             </Link>
                         </div>
@@ -77,8 +77,12 @@ const Header = () => {
                             LIST A PLACE
                         </button>
                         <hr />
-                        <div className='py-2'>LOGIN</div>
-                        <div className='py-2'>SIGNUP</div>
+                        <Link to="/login">
+                            <div className='py-2'>LOGIN</div>
+                        </Link>
+                        <Link to="/signup">
+                            <div className='py-2'>SIGNUP</div>
+                        </Link>
                     </div>
                     : ""}
 
@@ -91,8 +95,8 @@ const Header = () => {
                             </div>
                             <button className='flex items-center bg-[#22CB5C] rounded-full p-1.5 text-white'>
 
-                                    <SearchIcon />
-                                
+                                <SearchIcon />
+
                             </button>
                         </div>
                     </div>
