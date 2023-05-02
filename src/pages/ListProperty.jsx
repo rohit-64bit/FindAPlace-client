@@ -1,11 +1,11 @@
 import React from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import House from '../assets/Image/house.jpeg'
+import RenderImage from '../components/RenderImage';
 
 const ListProperty = () => {
     return (
         <>
-            <div className='w-full flex flex-col lg:flex-row'>
+            <div className='w-full xl:h-[87vh] flex flex-col lg:flex-row xl:items-center'>
 
                 <div className='lg:w-[50%] flex flex-col lg:p-10 p-4 md:p-6 gap-4'>
                     <div className='lg:px-14 font-semibold'>ADD YOUR PROPERTY</div>
@@ -22,7 +22,7 @@ const ListProperty = () => {
 
                 <div className='lg:w-[50%] flex flex-col lg:p-10 p-4 md:p-6 gap-4 justify-between'>
                     <div className='flex flex-col gap-3 lg:p-10'>
-                        <label for="dropzone-file" className="bg-white w-full" >
+                        <label htmlFor="dropzone-file" className="bg-white w-full" >
                             <div className="relative rounded-full select-none flex flex-col gap-5 cursor-pointer">
                                 <div className="flex flex-col py-10 rounded-2xl bg-gray-100">
                                     <CloudUploadIcon className='m-auto text-[#B5B5B5]' fontSize='large' />
@@ -31,9 +31,9 @@ const ListProperty = () => {
                             </div>
                             <input id="dropzone-file" type="file" accept='image/*' className="hidden" />
                         </label>
-                        <button className='px-1'>
-                            <img className='w-[25%] rounded-md' src={House} alt="" />
-                        </button>
+                        <div className='lg:gap-2 grid grid-cols-4 xl:flex xl:gap-3 py-2 px-1 w-full lg:pt-2'>
+                            <RenderImage />
+                        </div>
                     </div>
                     <div className='w-full lg:px-10'>
                         <button className='bg-[#4DD637] w-full py-1.5 font-semibold text-white rounded-md hover:shadow-md duration-300'>LIST PLACE</button>

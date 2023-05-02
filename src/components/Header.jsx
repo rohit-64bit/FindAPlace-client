@@ -28,12 +28,12 @@ const Header = () => {
                     </Link>
 
                     <div className='flex items-center gap-9'>
-                        <Link>
+                        <Link to="/">
                             <button className='border-2 border-[#4DD637] text-[#4DD637] px-5 py-1.5 font-semibold hover:shadow-md duration-300 text-sm'>
                                 BOOK PLACE
                             </button>
                         </Link>
-                        <Link>
+                        <Link to="/listproperty">
                             <button className='bg-[#4DD637] text-sm text-white px-5 py-1.5 font-semibold hover:shadow-md duration-300'>
                                 LIST PLACE
                             </button>
@@ -73,9 +73,11 @@ const Header = () => {
                         <button className='w-full py-1 text-center bg-[#22CB5C] text-white font-semibold'>
                             BOOK A PLACE
                         </button>
-                        <button className='w-full py-1 text-center bg-white text-[#22CB5C] border-2 border-[#22CB5C] font-semibold'>
-                            LIST A PLACE
-                        </button>
+                        <Link to="/listproperty">
+                            <button className='w-full py-1 text-center bg-white text-[#22CB5C] border-2 border-[#22CB5C] font-semibold'>
+                                LIST A PLACE
+                            </button>
+                        </Link>
                         <hr />
                         <Link to="/login">
                             <div className='py-2'>LOGIN</div>
