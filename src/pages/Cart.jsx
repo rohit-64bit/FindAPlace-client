@@ -6,11 +6,11 @@ import Paypal from '../assets/Image/paypal.png'
 const Cart = () => {
     return (
         <>
-            <div className='w-full h-[87vh] flex flex-col lg:flex-row xl:items-center px-10 py-5'>
+            <div className='w-full xl:h-[87vh] flex flex-col lg:flex-row xl:items-center xl:px-10 py-5 duration-300'>
 
-                <div className='w-[70%] h-full py-4 px-2'>
+                <div className='lg:w-[67%] xl:w-[70%] h-full py-4 px-2'>
 
-                    <div className='h-[77vh] overflow-y-auto'>
+                    <div className='h-[63vh] lg:h-[85vh] xl:h-[77vh] overflow-y-auto px-2 md:px-2 lg:px-4'>
                         <CartComponent />
                         <CartComponent />
                         <CartComponent />
@@ -19,10 +19,11 @@ const Cart = () => {
                     </div>
                 </div>
 
-                <div className='w-[30%] h-full px-10 flex flex-col gap-5'>
+
+                <div className='lg:w-[30%] h-full px-4 md:px-10 lg:px-3 flex flex-col gap-5'>
 
                     <div className='text-xl px-1'>Confirm and Pay</div>
-                    <img className='w-[60%]' src={Payment} alt="" />
+                    <img className='w-[60%] md:w-[30%] lg:w-[60%]' src={Payment} alt="" />
                     <div className='flex flex-col gap-1'>
                         <div className='text-xs font-semibold text-[#4DD637]'>CARDHOLDER’S NAME</div>
                         <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' placeholder='Your Name' type="text" />
