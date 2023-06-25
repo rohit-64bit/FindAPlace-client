@@ -6,7 +6,7 @@ const SignUp = () => {
     return (
         <>
             <div className='h-screen w-full flex items-center justify-between duration-300 py-'>
-                <div className='flex flex-col w-full px-[5%] md:px-[11%] lg:w-[50%] gap-4 absolute lg:relative bg-black/60 lg:bg-white h-full justify-center py-5'>
+                <div className='flex flex-col w-full px-[5%] md:px-[11%] lg:w-[50%] gap-4 absolute lg:relative bg-white/80 lg:bg-white h-full justify-center py-5'>
                     <div className='lg:text-3xl text-xl text-[#4DD637] font-semibold px-2'>Create New Account</div>
                     <input className='px-5 py-2 rounded-full outline-none focus:shadow-xl lg:focus:shadow-lg duration-300 bg-gray-100 lg:bg-gray-200/50' type="text" placeholder='Full Name' />
                     <input className='px-5 py-2 rounded-full outline-none focus:shadow-xl lg:focus:shadow-lg duration-300 bg-gray-100 lg:bg-gray-200/50' type="text" placeholder='Email' />

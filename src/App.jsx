@@ -5,6 +5,10 @@ import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Footer from "./components/Footer"
 import ContactUs from "./pages/ContactUs"
+import Order from "./pages/Order"
+import ListProperty from "./pages/ListProperty"
+import ViewProperty from "./pages/ViewProperty"
+import Cart from "./pages/Cart"
 
 function App() {
   return (
@@ -15,6 +19,10 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/contact" element={<ContactUs />}></Route>
+        <Route path="/order" element={<Order />}></Route>
+        <Route path="/listproperty" element={<ListProperty />}></Route>
+        <Route path="/viewproperty" element={<ViewProperty />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
       </Routes>
       <Footer />
     </>

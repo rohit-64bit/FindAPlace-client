@@ -28,23 +28,23 @@ const Header = () => {
                     </Link>
 
                     <div className='flex items-center gap-9'>
-                        <Link>
+                        <Link to="/">
                             <button className='border-2 border-[#4DD637] text-[#4DD637] px-5 py-1.5 font-semibold hover:shadow-md duration-300 text-sm'>
                                 BOOK PLACE
                             </button>
                         </Link>
-                        <Link>
+                        <Link to="/listproperty">
                             <button className='bg-[#4DD637] text-sm text-white px-5 py-1.5 font-semibold hover:shadow-md duration-300'>
                                 LIST PLACE
                             </button>
                         </Link>
 
                         <div className='flex gap-1 items-center px-5 font-semibold'>
-                            <Link>
+                            <Link to="/login">
                                 <button className='py-1 hover:text-[#4DD637] duration-200'>LOGIN</button>
                             </Link>
                             /
-                            <Link>
+                            <Link to="/signup">
                                 <button className='py-1 hover:text-[#4DD637] duration-200'>SIGNUP</button>
                             </Link>
                         </div>
@@ -73,26 +73,32 @@ const Header = () => {
                         <button className='w-full py-1 text-center bg-[#22CB5C] text-white font-semibold'>
                             BOOK A PLACE
                         </button>
-                        <button className='w-full py-1 text-center bg-white text-[#22CB5C] border-2 border-[#22CB5C] font-semibold'>
-                            LIST A PLACE
-                        </button>
+                        <Link to="/listproperty">
+                            <button className='w-full py-1 text-center bg-white text-[#22CB5C] border-2 border-[#22CB5C] font-semibold'>
+                                LIST A PLACE
+                            </button>
+                        </Link>
                         <hr />
-                        <div className='py-2'>LOGIN</div>
-                        <div className='py-2'>SIGNUP</div>
+                        <Link to="/login">
+                            <div className='py-2'>LOGIN</div>
+                        </Link>
+                        <Link to="/signup">
+                            <div className='py-2'>SIGNUP</div>
+                        </Link>
                     </div>
                     : ""}
 
 
                 {navBarOpen ? "" :
-                    <div className='h-12 flex justify-center w-full'>
+                    <div className='h-12 flex justify-center w-full my-1'>
                         <div className='flex justify-center items-center h-full w-[90%] md:w-[80%] lg:w-[50%] shadow-md rounded-full gap-3 p-1 border-2'>
                             <div className='flex w-full '>
                                 <input type="text" className='bg-transparent px-3 py-2 outline-none w-full' placeholder='Search for Location...' />
                             </div>
                             <button className='flex items-center bg-[#22CB5C] rounded-full p-1.5 text-white'>
 
-                                    <SearchIcon />
-                                
+                                <SearchIcon />
+
                             </button>
                         </div>
                     </div>
