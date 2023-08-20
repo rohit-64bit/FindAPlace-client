@@ -25,32 +25,32 @@ const Cart = () => {
                     <div className='text-xl px-1'>Confirm and Pay</div>
                     <img className='w-[60%] md:w-[30%] lg:w-[60%]' src={Payment} alt="" />
                     <div className='flex flex-col gap-1'>
-                        <div className='text-xs font-semibold text-[#4DD637]'>CARDHOLDER’S NAME</div>
-                        <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' placeholder='Your Name' type="text" />
+                        <div className='text-xs font-semibold text-[#166534]'>CARDHOLDER’S NAME</div>
+                        <input className='w-full px-3 rounded-lg border-2 border-[#166534] py-1.5 focus:outline-none text-[#166534]' placeholder='Your Name' type="text" />
                     </div>
                     <div className='flex flex-col gap-1'>
-                        <div className='text-xs font-semibold text-[#4DD637]'>CARD NUMBER</div>
-                        <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' placeholder='xxxx xxxx xxxx xxxx' type="text" />
+                        <div className='text-xs font-semibold text-[#166534]'>CARD NUMBER</div>
+                        <input className='w-full px-3 rounded-lg border-2 border-[#166534] py-1.5 focus:outline-none text-[#166534]' placeholder='xxxx xxxx xxxx xxxx' type="text" />
                     </div>
                     <div className='flex flex-col gap-1'>
-                        <div className='text-xs font-semibold text-[#4DD637]'>BILLING ADDRESS</div>
-                        <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' placeholder='Your address' type="text" />
+                        <div className='text-xs font-semibold text-[#166534]'>BILLING ADDRESS</div>
+                        <input className='w-full px-3 rounded-lg border-2 border-[#166534] py-1.5 focus:outline-none text-[#166534]' placeholder='Your address' type="text" />
                     </div>
                     <div className='w-full flex gap-4'>
                         <div className='w-[50%] flex flex-col gap-1'>
-                            <div className='text-xs font-semibold text-[#4DD637]'>CVV</div>
-                            <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' type="text" />
+                            <div className='text-xs font-semibold text-[#166534]'>CVV</div>
+                            <input className='w-full px-3 rounded-lg border-2 border-[#166534] py-1.5 focus:outline-none text-[#166534]' type="text" />
                         </div>
                         <div className='w-[50%] flex flex-col gap-1'>
-                            <div className='text-xs font-semibold text-[#4DD637]'>EXPIRATION DATE</div>
-                            <input className='w-full px-3 rounded-lg border-2 border-[#4DD637] py-1.5 focus:outline-none text-[#4DD637]' type="date" />
+                            <div className='text-xs font-semibold text-[#166534]'>EXPIRATION DATE</div>
+                            <input className='w-full px-3 rounded-lg border-2 border-[#166534] py-1.5 focus:outline-none text-[#166534]' type="date" />
                         </div>
                     </div>
                     <div className='flex gap-2 items-start'>
                         <input className='scale-125 my-1 cursor-pointer' type="checkbox" />
                         <div className='text-sm'>I accept the terms & conditions and refund policy of the platform</div>
                     </div>
-                    <button className='bg-[#4DD637] py-1.5 text-white rounded-md'>
+                    <button className='bg-[#166534] py-1.5 text-white rounded-md'>
                         Confirm & Pay Order <span>$500</span>
                     </button>
                     <div className='text-xs flex gap-2 items-center text-slate-400'>

@@ -1,22 +1,21 @@
 import React from 'react'
-import Items from '../components/Items'
+import OrderDetails from '../components/OrderDetails'
 
 const Order = () => {
     return (
         <>
-            <div>
-                <div className='flex justify-center py-6 font-bold text-2xl text-[#4DD637]'>ORDERS</div>
-                <div className='grid w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 px-4 lg:px-6 py-3'>
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
-                    <Items />
+            <div className='py-10'>
+
+                <div className='flex justify-center py-6 font-bold text-2xl text-[#166534]'>ORDERS</div>
+
+                <div className='flex flex-col gap-5 w-full px-4 lg:px-6 py-3'>
+
+                    <OrderDetails /> 
+                    <OrderDetails /> 
+                    <OrderDetails /> 
+                    <OrderDetails /> 
+                    <OrderDetails /> 
+                    
                 </div>
 
             </div>
