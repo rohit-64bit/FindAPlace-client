@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import RenderImage from '../components/RenderImage';
-import { SERVER_URL } from '../services/helper';
+import { CDN_SERVER_URL, SERVER_URL } from '../services/helper';
 import Compressor from 'compressorjs';
 import { CLOUDINARY_URL, CLOUD_NAME, UPLOAD_PRESET } from './../services/cloudinary';
-import { userAuthToken } from '../services/localStorage';
 import MainContext from './../context/MainContext';
 
 const ListProperty = () => {
+
+    const userAuthToken = localStorage.getItem('auth-token')
 
     const { setNotification } = useContext(MainContext)
 
@@ -29,102 +30,238 @@ const ListProperty = () => {
     const [cost, setCost] = useState('')
     const [contact, setContact] = useState('')
 
+    // const handleAddProperty = async (e) => {
+
+    //     e.preventDefault()
+
+    //     const userAuthToken = localStorage.getItem('auth-token')
+
+    //     setLoadingStatus(true)
+
+    //     let uploadedImageUrl = []
+
+    //     let uploaderCount = 0
+
+    //     images?.map((image) => {
+
+    //         const options = {
+    //             quality: 0.6,
+    //             mimeType: 'image/jpeg'
+    //         }
+
+    //         new Compressor(image, {
+    //             ...options,
+    //             success(result) {
+
+    //                 // upload the image to cloud and then store url into the array then update the counter
+
+    //                 const data = new FormData()
+    //                 data.append("file", result)
+    //                 data.append("upload_preset", `${UPLOAD_PRESET}`)
+    //                 data.append("cloud_name", `${CLOUD_NAME}`)
+
+    //                 fetch(`${CLOUDINARY_URL}`, {
+    //                     method: 'POST',
+    //                     body: data
+    //                 })
+    //                     .then(res => res.json())
+    //                     .then(jsonData => {
+
+    //                         console.log(jsonData)
+
+    //                         uploaderCount++;
+
+    //                         if (uploaderCount === images.length) {
+
+    //                             fetch(`${SERVER_URL}property/create-property`, {
+    //                                 method: 'POST',
+    //                                 headers: {
+    //                                     'Content-Type': 'application/json',
+    //                                     'auth-token': userAuthToken
+    //                                 },
+    //                                 body: JSON.stringify({
+
+    //                                     title: title,
+    //                                     description: description,
+    //                                     location: address,
+    //                                     cost: cost,
+    //                                     images: uploadedImageUrl,
+    //                                     type: type,
+    //                                     contact: contact
+
+    //                                 }),
+    //                             })
+    //                                 .then(res => res.json())
+    //                                 .then(json => {
+
+    //                                     if (json.success) {
+
+    //                                         setTitle('')
+    //                                         setDescription('')
+    //                                         setAddress('')
+    //                                         setCost('')
+    //                                         setImages([])
+    //                                         setType('')
+    //                                         setContact('')
+
+    //                                         setLoadingStatus(false)
+    //                                         setNotification({ status: "true", message: `${json.message}`, type: "info" })
+
+    //                                     } else {
+
+    //                                         setLoadingStatus(false)
+    //                                         setNotification({ status: "true", message: `${json.error}`, type: "error" })
+
+    //                                     }
+
+    //                                 })
+
+    //                         }
+
+    //                     })
+
+    //             }
+    //         })
+
+    //     })
+
+    // }
+
+
+
+    // gpt solution
+
     const handleAddProperty = async (e) => {
 
-        e.preventDefault()
+        e.preventDefault();
+        setLoadingStatus(true);
 
-        setLoadingStatus(true)
+        try {
 
-        let uploadedImageUrl = []
+            const compressedImages = await Promise.all(
+                images.map(async (image) => {
+                    const options = {
+                        quality: 0.6,
+                        mimeType: 'image/jpeg',
+                    };
 
-        let uploaderCount = 0
+                    return new Promise((resolve, reject) => {
+                        new Compressor(image, {
+                            ...options,
+                            success(result) {
+                                console.log('Compression finished for:', result);
 
-        images?.map((image) => {
+                                // Resolve the promise with the compressed image
+                                resolve(result);
+                            },
+                            error(err) {
+                                console.error('Compression error:', err);
+                                reject(err);
+                            },
+                        });
+                    });
+                })
+            );
 
-            const options = {
-                quality: 0.6,
-                mimeType: 'image/jpeg'
-            }
+            // Now, you can proceed with uploading the compressed images to the CDN server
+            const formData = new FormData();
+            compressedImages.forEach((image) => {
+                formData.append('images', image);
+            });
 
-            new Compressor(image, {
-                ...options,
-                success(result) {
+            const response = await fetch(`${CDN_SERVER_URL}upload`, {
+                method: 'POST',
+                body: formData,
+            });
 
-                    // upload the image to cloud and then store url into the array then update the counter
-                    const data = new FormData()
-                    data.append("file", result)
-                    data.append("upload_preset", `${UPLOAD_PRESET}`)
-                    data.append("cloud_name", `${CLOUD_NAME}`)
+            if (response.ok) {
 
-                    fetch(`${CLOUDINARY_URL}`, {
+                const json = await response.json();
+                console.log('CDN Upload response:', json);
+
+                if (json.success) {
+
+                    // After successful CDN upload, you can proceed with other actions,
+                    // such as uploading property data to the API server with image links.
+                    
+                    const response = await fetch(`${SERVER_URL}property/create-property`, {
                         method: 'POST',
-                        body: data
-                    })
-                        .then(res => res.json())
-                        .then(jsonData => {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth-token': userAuthToken,
+                        },
+                        body: JSON.stringify({
+                            title: title,
+                            description: description,
+                            location: address,
+                            cost: cost,
+                            images: json.urls,
+                            type: type,
+                            contact: contact,
+                        }),
+                    });
 
-                            uploaderCount++;
+                    const propertyResponse = await response.json();
 
-                            if (uploaderCount === images.length) {
+                    if (propertyResponse.success) {
 
-                                fetch(`${SERVER_URL}property/create-property`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'auth-token': userAuthToken
-                                    },
-                                    body: JSON.stringify({
+                        setTitle('')
+                        setDescription('')
+                        setAddress('')
+                        setCost('')
+                        setImages([])
+                        setType('')
+                        setContact('')
 
-                                        title: title,
-                                        description: description,
-                                        location: address,
-                                        cost: cost,
-                                        images: uploadedImageUrl,
-                                        type: type,
-                                        contact: contact
+                        setLoadingStatus(false)
+                        setNotification({ status: "true", message: `${json.message}`, type: "info" })
 
-                                    }),
-                                })
-                                    .then(res => res.json())
-                                    .then(json => {
+                    } else {
 
-                                        if (json.success) {
+                        setLoadingStatus(false)
+                        setNotification({ status: "true", message: `${json.error}`, type: "error" })
 
-                                            setTitle('')
-                                            setDescription('')
-                                            setAddress('')
-                                            setCost('')
-                                            setImages([])
-                                            setType('')
-                                            setContact('')
-
-                                            setLoadingStatus(false)
-                                            setNotification({ status: "true", message: `${json.message}`, type: "info" })
-
-                                        } else {
-
-                                            setLoadingStatus(false)
-                                            setNotification({ status: "true", message: `${json.error}`, type: "error" })
-
-                                        }
-
-                                    })
-
-                            }
-
-                        })
+                    }
 
                 }
-            })
 
+            } else {
+                console.error('Failed to upload to CDN server');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const [pTypeList, setPTypeList] = useState([])
+
+    const fetchPropertyType = async () => {
+
+        const response = await fetch(`${SERVER_URL}property-type/fetch`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
 
+        const json = await response.json()
+
+        if (json.success) {
+            setPTypeList(json.propertyType)
+        } else {
+            console.error(json.error)
+        }
+
     }
+
+    useEffect(() => {
+        fetchPropertyType()
+    }, [])
 
     return (
         <>
             <form
-                enctype="multipart/form-data"
+                encType="multipart/form-data"
                 onSubmit={handleAddProperty}
                 className='w-full xl:h-[87vh] flex flex-col lg:flex-row xl:items-center'
             >
@@ -141,7 +278,6 @@ const ListProperty = () => {
                             placeholder='Property Name'
                             value={title}
                             onChange={e => setTitle(e.target.value)}
-                            required
                         />
 
                         <textarea
@@ -160,7 +296,16 @@ const ListProperty = () => {
                             onChange={e => setType(e.target.value)}
                         >
 
-                            <option value="">Select Property Type</option>
+                            <option>Select Property Type</option>
+
+                            {pTypeList?.map((data) => {
+                                return (
+
+                                    <option key={data._id} value={data._id}>
+                                        {data.type}
+                                    </option>
+                                )
+                            })}
 
                         </select>
 

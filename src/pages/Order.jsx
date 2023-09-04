@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import OrderDetails from '../components/OrderDetails'
+import { SERVER_URL } from './../services/helper';
+import MainContext from '../context/MainContext';
 
 const Order = () => {
+
+    const authToken = localStorage.getItem('auth-token')
+
+    const { fetchOrder, orderList } = useContext(MainContext)
+
+    useEffect(() => {
+        fetchOrder()
+    }, [])
+
     return (
         <>
             <div className='py-10'>
@@ -10,12 +21,18 @@ const Order = () => {
 
                 <div className='flex flex-col gap-5 w-full px-4 lg:px-6 py-3'>
 
-                    <OrderDetails /> 
-                    <OrderDetails /> 
-                    <OrderDetails /> 
-                    <OrderDetails /> 
-                    <OrderDetails /> 
-                    
+                    {
+                        orderList &&
+                        orderList.map((data) => {
+                            return (
+                                <OrderDetails
+                                    key={data._id}
+                                    data={data}
+                                />
+                            )
+                        })
+                    }
+
                 </div>
 
             </div>

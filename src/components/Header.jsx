@@ -1,21 +1,41 @@
 import * as React from 'react';
-import Building from '../assets/Image/pngegg.png';
+import Logo from '../assets/logo-main.png';
+import LogoBW from '../assets/logo-bw.png';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Avatar, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import HelpIcon from '@mui/icons-material/Help';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { useState, useContext } from 'react';
+import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
 
-import ViewStreamIcon from '@mui/icons-material/ViewStream';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+
+import { styled } from "@mui/system";
+import MainContext from '../context/MainContext';
+import { useEffect } from 'react';
+
+const StyledButton = styled(Button)`
+  border: 2px solid #166534;
+  color: #166534;
+  padding: 5px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: box-shadow 0.3s ease-in-out;
+  &:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+`;
 
 const Header = () => {
 
     const location = useLocation()
 
     const navigate = useNavigate()
+
+    const { userProfile, fetchUserProfile } = useContext(MainContext)
 
     const authToken = localStorage.getItem('auth-token')
 
@@ -38,11 +58,22 @@ const Header = () => {
     };
 
 
-    const handleLogoutModalOpen = () => {
+    const handleLogout = () => {
 
         localStorage.removeItem('auth-token')
+        navigate('/')
 
     }
+
+    const { name, email, contact } = userProfile;
+
+    useEffect(() => {
+
+        if (authToken) {
+            fetchUserProfile()
+        }
+
+    }, [authToken])
 
     return (
         <>
@@ -53,31 +84,19 @@ const Header = () => {
                 <div className='hidden md:flex justify-between px-10 py-7'>
 
                     <Link to='/' className='flex gap-2 items-center'>
-                        {/* <img className='w-10' src={Building} alt="Logo" /> */}
-                        <div className='w-14 h-full bg-[#166534]'></div>
-                        <div>
-                            <div className='text-[#166534] font-bold text-lg'>BOOK A PLACE</div>
-                            <div className='text-[#166534] font-thin text-sm'>EASY RENTAL</div>
-                        </div>
+
+                        <img className='w-44 ' src={Logo} alt="Logo" />
+
                     </Link>
 
-                    <div className='flex items-center gap-9'>
+                    <div className='flex items-center gap-2'>
 
-                        <div className="flex gap-4">
+                        <Link to="/listproperty">
+                            <div className='border-2 hover:bg-[#166534]/5 text-black transition-all px-5 py-1.5 duration-300 text-sm rounded-full'>
+                                List your property
+                            </div>
+                        </Link>
 
-                            <Link to="/property">
-                                <button className='border-2 border-[#166534] text-[#166534] px-5 py-1.5 font-semibold hover:shadow-md duration-300 text-sm'>
-                                    BOOK PLACE
-                                </button>
-                            </Link>
-
-                            <Link to="/listproperty">
-                                <button className='bg-[#166534] border-2 border-[#166534] text-sm text-white px-5 py-1.5 font-semibold hover:shadow-md duration-300'>
-                                    LIST PLACE
-                                </button>
-                            </Link>
-
-                        </div>
 
                         {
                             authToken ?
@@ -102,39 +121,58 @@ const Header = () => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
+
                                         <div className=' bg-white px-2'>
 
-                                            <Link to="/profile">
-                                                <div className='px-3 py-2 w-full gap-2 hover:bg-[#166534] hover:text-white flex items-center duration-300 rounded hover:shadow'>
-                                                    <EditIcon className='' style={{ fontSize: 25 }} />
+                                            <div className="h-14 gap-2 px-3 py-2 mb-2">
+                                                <p className="font-semibold">Signed in as</p>
+                                                <p className="font-semibold">{name}</p>
+                                            </div>
 
-                                                    <p className='font-semibold text-[17px]'>Edit Profile</p>
+                                            <Divider />
+
+                                            <Link to="/profile">
+
+                                                <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
+                                                    {/* <EditIcon className='' style={{ fontSize: 25 }} /> */}
+
+                                                    <p className='text-base'>Edit Profile</p>
+                                                </div>
+
+                                            </Link>
+
+                                            <Link to="/order">
+                                                <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
+
+                                                    {/* <ViewStreamIcon className='' style={{ fontSize: 25 }} /> */}
+
+                                                    <p className='text-base'>My Orders</p>
                                                 </div>
                                             </Link>
 
                                             <Link to="/order">
-                                                <div className='px-3 py-2 w-full gap-2 hover:bg-[#166534] hover:text-white flex items-center duration-300 rounded hover:shadow'>
+                                                <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
 
-                                                    <ViewStreamIcon className='' style={{ fontSize: 25 }} />
+                                                    {/* <ViewStreamIcon className='' style={{ fontSize: 25 }} /> */}
 
-                                                    <p className='font-semibold text-[17px]'>My Orders</p>
+                                                    <p className='text-base'>Manage Listings</p>
                                                 </div>
                                             </Link>
 
                                             <Link to="/help">
-                                                <div className='px-3 py-2 w-full gap-2 hover:bg-[#166534] hover:text-white flex items-center duration-300 rounded hover:shadow'>
+                                                <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
 
-                                                    <HelpIcon className='' style={{ fontSize: 25 }} />
+                                                    {/* <HelpIcon className='' style={{ fontSize: 25 }} /> */}
 
-                                                    <p className='font-semibold text-[17px]'>Help & Support</p>
+                                                    <p className='text-base'>Help & Support</p>
                                                 </div>
                                             </Link>
 
-                                            <button type='button' className='px-4 py-2 w-full gap-2 hover:bg-[#166534] hover:text-white flex duration-300 items-center rounded hover:shadow' onClick={handleLogoutModalOpen}>
+                                            <button type='button' className='px-4 py-2 w-full gap-2 hover:bg-red-500 hover:text-white flex duration-300 items-center rounded hover:shadow' onClick={handleLogout}>
 
-                                                <LogoutIcon className='' style={{ fontSize: 24 }} />
+                                                {/* <LogoutIcon className='' style={{ fontSize: 24 }} /> */}
 
-                                                <p className='font-semibold text-[17px]'>Logout</p>
+                                                <p className='text-base'>Logout</p>
 
                                             </button>
 
@@ -162,47 +200,123 @@ const Header = () => {
                 <div className='flex md:hidden justify-between items-center p-4'>
 
                     <Link to='/'>
-                        <img className='w-10' src={Building} alt="Logo" />
+                        <img className='w-32' src={Logo} alt="Logo" />
                     </Link>
 
                     <button onClick={navBarOpen ? handleClose : handleOpen} className='flex gap-1 flex-col'>
+
                         <div className={navBarOpen ? 'border-[2px] border-[#166534] w-8 rounded-full rotate-45 translate-y-1 duration-300' : 'border-[2px] border-[#166534] w-8 rounded-full duration-300'}></div>
 
                         {navBarOpen ? null : <div className='border-[2px] border-[#166534] w-8 rounded-full'></div>}
 
                         <div className={navBarOpen ? 'border-[2px] border-[#166534] w-8 rounded-full -rotate-45 -translate-y-1 duration-300' : 'border-[2px] border-[#166534] w-8 rounded-full duration-300'}></div>
+
                     </button>
 
                 </div>
 
+                {/* small device dropdown */}
+
                 {
                     navBarOpen ?
 
-                        <div className='w-full flex flex-col gap-2 py-5 px-5 border border-t-2 h-max shadow-lg'>
+                        <div className={navBarOpen ? 'w-full flex flex-col gap-2 py-5 px-5 border border-t-2 h-max shadow-lg fixed bg-white duration-300' : 'w-full flex flex-col gap-0 py-0 px-0 border border-t-2 h-max shadow-lg fixed bg-white duration-300'}>
 
-                            < Link to='/' onClick={handleClose} className='w-full py-1 text-center bg-[#166534] text-white font-semibold' >
-                                BOOK A PLACE
-                            </Link >
+                            {
+                                authToken ?
+                                    <>
+                                        < Link to='/property' onClick={handleClose} className='w-full py-1 text-center border rounded' >
+                                            Book a place
+                                        </Link >
 
-                            <Link to="/listproperty" onClick={handleClose} className='w-full py-1 text-center bg-white text-[#166534] border-2 border-[#166534] font-semibold'>
-                                LIST A PLACE
-                            </Link>
+                                        <Link to="/listproperty" onClick={handleClose} className='w-full py-1 text-center border rounded'>
+                                            List your place
+                                        </Link>
 
-                            <hr />
+                                        <hr className='mt-4' />
 
-                            <Link to="/login" onClick={handleClose}>
-                                <div className='py-2'>LOGIN</div>
-                            </Link>
+                                        <Link to="/profile" onClick={handleClose} className='flex gap-2 py-2'>
 
-                            <Link to="/signup" onClick={handleClose}>
-                                <div className='py-2'>SIGNUP</div>
-                            </Link>
+                                            <PersonIcon className='text-gray-700'/>
 
-                        </div >
+                                            Edit Profile
+                                        </Link>
+
+                                        <Link to="/order" onClick={handleClose} className='flex gap-2 py-2'>
+
+                                            <LocalMallIcon className='text-gray-700'/>
+
+                                            My Orders
+                                        </Link>
+
+                                        <Link to="/order" onClick={handleClose} className='flex gap-2 py-2'>
+
+                                            <ViewListIcon className='text-gray-700'/>
+
+                                            Manage Listings
+                                        </Link>
+
+                                        <Link to="/help" onClick={handleClose} className='flex gap-2 py-2'>
+
+                                            <LiveHelpIcon className='text-gray-700'/>
+
+                                            Help & Support
+                                        </Link>
+
+                                        <button
+                                            onClick={
+                                                () => {
+                                                    handleClose()
+                                                    handleLogout()
+                                                }
+                                            }
+                                            className='flex gap-2 py-2'
+                                        >
+
+                                            <LogoutIcon className='text-gray-700'/>
+
+                                            Logout
+
+                                        </button>
+
+                                    </> :
+                                    <>
+                                        < Link to='/property' onClick={handleClose} className='w-full py-1 text-center border rounded' >
+                                            Book a place
+                                        </Link >
+
+                                        <Link to="/listproperty" onClick={handleClose} className='w-full py-1 text-center border rounded'>
+                                            List your place
+                                        </Link>
+
+                                        <hr className='mt-4' />
+
+                                        <Link to="/login" onClick={handleClose} className='flex gap-2 py-2'>
+
+                                            <PersonIcon className='text-gray-700'/>
+
+                                            Login
+                                        </Link>
+
+                                        <Link to="/signup" onClick={handleClose} className='flex gap-2 py-2'>
+
+                                            <PersonAddAlt1Icon className='text-gray-700'/>
+
+                                            Signup
+                                        </Link>
+
+                                    </>
+                            }
+
+
+
+                        </div>
 
                         : null
                 }
 
+
+                {/* search bar component */}
 
                 {
                     navBarOpen ? null :
@@ -210,7 +324,8 @@ const Header = () => {
                         location.pathname !== '/' && location.pathname !== '/property' ?
 
                             null
-                            : <div className='h-12 flex justify-center w-full my-1'>
+                            :
+                            <div className='h-12 flex justify-center w-full my-1'>
                                 <div className='flex justify-center items-center h-full w-[90%] md:w-[80%] lg:w-[50%] shadow-md rounded-full gap-3 p-1 border-2'>
                                     <div className='flex w-full '>
                                         <input type="text" className='bg-transparent px-3 py-2 outline-none w-full' placeholder='Search for Location...' />
@@ -224,6 +339,7 @@ const Header = () => {
                                     </button>
                                 </div>
                             </div>
+
                 }
 
             </div>

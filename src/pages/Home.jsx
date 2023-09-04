@@ -34,15 +34,15 @@ const Home = () => {
 
                 <div className='flex justify-center flex-col gap-5 px-[7%] relative'>
 
-                    <div className='text-[#166534] text-2xl lg:text-4xl font-semibold'>A PLACE OF YOUR CHOICE</div>
+                    <div className='text-[#166534] text-2xl lg:text-4xl font-semibold'>A place of your choice</div>
 
-                    <div className='text-[#166534] lg:font-semibold lg:text-lg'>The perfect site to book place of your choice or to rent your vacant place and earn</div>
+                    <div className='text-black lg:text-lg'>The perfect site to book place of your choice or to rent your vacant place and earn</div>
 
                     <div className='gap-3 lg:gap-5 flex'>
 
-                        <Link to='/property' className='border-2 border-[#166534] bg-[#166534] text-white py-1 px-2 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300'>BOOK PLACE</Link>
+                        <Link to='/property' className='border-2 border-[#166534] bg-[#166534] text-white py-1 px-4 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300 rounded-full'>BOOK PLACE</Link>
 
-                        <Link to='/listproperty' className='border-2 border-[#166534] text-[#166534] py-1 px-2 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300'>LIST PLACE</Link>
+                        <Link to='/listproperty' className='border-2 border-[#166534] text-[#166534] py-1 px-4 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300 rounded-full'>LIST PLACE</Link>
 
                     </div>
 
@@ -69,6 +69,8 @@ const Home = () => {
                     }
 
                 </div>
+
+                <Link to='/property' className='text-center px-5 py-1 bg-gradient-to-tr from-green-500 to-[#166534]/90 w-max text-white rounded m-auto'>View More</Link>
 
             </div>
 

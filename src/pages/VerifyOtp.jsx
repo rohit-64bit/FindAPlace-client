@@ -12,12 +12,16 @@ const VerifyOtp = () => {
 
     const [otp, setOtp] = useState('')
 
-    const email = sessionStorage.getItem('email')
-    const type = sessionStorage.getItem('type')
+    const [loading, setLoading] = useState(false)
+
+    const email = sessionStorage.getItem('redirect-email')
+    const type = sessionStorage.getItem('redirect-type')
 
     const handleOtpVerification = async (e) => {
 
         e.preventDefault()
+
+        setLoading(true)
 
         if (type === 'auth') {
 
@@ -32,15 +36,15 @@ const VerifyOtp = () => {
             const json = await response.json()
 
             if (json.success && json.authToken != undefined) {
-
+                setLoading(false)
                 localStorage.setItem('auth-token', json.authToken)
-                sessionStorage.removeItem('type')
-                sessionStorage.removeItem('email')
+                sessionStorage.removeItem('redirect-type')
+                sessionStorage.removeItem('redirect-email')
                 navigate('/')
                 setNotification({ status: "true", message: `${json.message}`, type: "success" })
 
             } else {
-
+                setLoading(false)
                 setNotification({ status: "true", message: `${json.error}`, type: "error" })
 
             }
@@ -58,13 +62,13 @@ const VerifyOtp = () => {
             const json = await response.json()
 
             if (json.success) {
-
-                // on success otp validation route to reset password page
+                setLoading(false)
+                navigate('/reset-password')
 
                 setNotification({ status: "true", message: `${json.message}`, type: "success" })
 
             } else {
-
+                setLoading(false)
                 setNotification({ status: "true", message: `${json.error}`, type: "error" })
 
             }
@@ -79,8 +83,8 @@ const VerifyOtp = () => {
 
                 <form onSubmit={handleOtpVerification} method='POST' className='flex flex-col w-full px-[5%] md:px-[11%] lg:w-[50%] gap-4 absolute lg:relative bg-white/80 lg:bg-white h-full justify-center'>
 
-                    <div className='text-3xl text-[#166534] font-semibold px-2'>Verify your email</div>
-                    <div className='opacity-70 px-2'>OTP sent on {email}</div>
+                    <div className='lg:text-3xl text-xl text-[#166534] font-semibold'>Verify your email</div>
+                    <div className='opacity-70'>OTP sent on {email}</div>
 
                     <input
                         className='px-5 py-2 rounded-md outline outline-1 outline-green-400 focus:outline-[#166534] focus:shadow-xl lg:focus:shadow-lg duration-300 lg:bg-gray-200/50 bg-gray-100'
@@ -94,15 +98,18 @@ const VerifyOtp = () => {
                     />
 
                     <button
-                        className='bg-[#166534] text-white w-full px-5 py-1.5 rounded-md font-semibold text-lg hover:shadow-lg duration-300'
+                        className='bg-[#166534] text-white w-full px-5 py-1.5 rounded-md md:font-semibold md:text-lg hover:shadow-lg duration-300 disabled:bg-slate-300 disabled:text-black disabled:cursor-not-allowed'
                         type='submit'
+                        disabled={loading}
                     >
-                        Verify
+
+                        {loading ? 'Loading...' : 'Verify your email'}
+
                     </button>
 
                 </form>
 
-                <div className='lg:w-[50%] w-full flex lg:justify-center md:justify-end items-center h-full lg:items-end'>
+                <div className='lg:w-[50%] w-full hidden md:flex lg:justify-center md:justify-end items-center h-full lg:items-end'>
                     <img className='md:w-[60%] lg:w-[90%] w-full' src={LoginImage} alt="Image" />
                 </div>
 
