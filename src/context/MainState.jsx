@@ -53,6 +53,7 @@ const MainState = (props) => {
         const json = await response.json()
 
         if (json.success) {
+            sessionStorage.setItem('sessionUserID', json.user._id)
             setProfileLoadingStatus(false)
             setUserProfile(json.user)
         }

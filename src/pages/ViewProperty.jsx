@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
@@ -22,7 +22,7 @@ const ViewProperty = () => {
 
     const locationRoute = useLocation()
 
-    const { _id, title, description, location, images, cost, RatingScore, typeName } = locationRoute.state.data
+    const { _id, title, description, location, images, cost, RatingScore, type, owner } = locationRoute.state.data
 
     const [imageLink, setImageLink] = useState(images[0])
 
@@ -125,6 +125,56 @@ const ViewProperty = () => {
 
     }
 
+    const [propertyType, setPropertyType] = useState({})
+
+    const fetchPropertyType = async () => {
+
+        const response = await fetch(`${SERVER_URL}property-type/fetch-data/${type}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+
+        const json = await response.json()
+        if (json.success) {
+            setPropertyType(json.data)
+        }
+    }
+
+    const [hostData, setHostData] = useState({})
+
+    const fetchHostData = async () => {
+
+        const response = await fetch(`${SERVER_URL}user/user-profile/${owner}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        const json = await response.json()
+
+        if (json.success) {
+            setHostData(json.user)
+        } else {
+            console.error(json);
+        }
+
+    }
+
+    let date = hostData?.joinedOn;
+    let timeStamp = new Date(date).getTime();
+    let day = new Date(timeStamp).getDate();
+    let month = new Date(timeStamp).toLocaleString('default', { month: 'short' });
+    let year = new Date(timeStamp).getFullYear();
+
+    useEffect(() => {
+        fetchHostData()
+        fetchPropertyType()
+    }, [])
+
     return (
         <>
             <div className='w-full py-5 h-max xl:py-10 flex flex-col lg:flex-row lg:px-16 xl:px-28'>
@@ -183,7 +233,7 @@ const ViewProperty = () => {
 
                                 <div className="text-sm text-gray-500">
 
-                                    {typeName}
+                                    {propertyType?.type}
 
                                 </div>
 
@@ -209,12 +259,8 @@ const ViewProperty = () => {
                             {description}
                         </div>
 
-                        <div>
-                            Capacity : 1 person
-                        </div>
-
                         <div className='text-xl font-semibold'>
-                            {cost}
+                            $ {cost}
                         </div>
 
                         <form onSubmit={handleCheckAvailability} method='POST' className='shadow-lg shadow-slate-200 p-5 flex flex-col gap-2 border w-full sm:w-max'>
@@ -333,17 +379,21 @@ const ViewProperty = () => {
                         <div className="flex flex-col">
 
                             <div className="text-sm md:text-base font-bold">
-                                Hosted by User Name
+                                Hosted by {hostData?.name?.split(' ')[0]}
                             </div>
 
                             <div className="text-xs md:text-sm text-black/50">
-                                Joined on June 20
+                                {day} {month} {year}
                             </div>
 
                         </div>
                     </div>
 
-                    <button className='text-sm bg-slate-100 py-2 px-5 md:px-10 rounded h-max hover:bg-gradient-to-tr hover:from-green-500 hover:to-[#166534]/90 hover:text-white duration-300 transition-all ease-in-out'>Contact Host</button>
+                    {
+                        authToken && (
+                            <button className='text-sm bg-slate-100 py-2 px-5 md:px-10 rounded h-max hover:bg-gradient-to-tr hover:from-green-500 hover:to-[#166534]/90 hover:text-white duration-300 transition-all ease-in-out'>Contact Host</button>
+                        )
+                    }
 
                 </div>
 

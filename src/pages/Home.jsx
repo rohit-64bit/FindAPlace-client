@@ -30,27 +30,23 @@ const Home = () => {
 
     return (
         <>
-            <div className='w-full flex lg:justify-between px-4 lg:px-10 h-[80vh] duration-300 items-center'>
+            <div className='w-full flex justify-between px-4 gap-10 py-10 lg:px-10 mb-10 h-[70vh] duration-300 items-center'>
 
-                <div className='flex justify-center flex-col gap-5 px-[7%] relative'>
+                <div className='flex justify-center flex-col gap-5 px-[7%]'>
 
-                    <div className='text-[#166534] text-2xl lg:text-4xl font-semibold'>A place of your choice</div>
+                    <div className=' text-2xl lg:text-4xl font-semibold text-green-600'>Find the <span className='text-[#166534]'>destination</span> of your choice.</div>
 
                     <div className='text-black lg:text-lg'>The perfect site to book place of your choice or to rent your vacant place and earn</div>
 
-                    <div className='gap-3 lg:gap-5 flex'>
+                    {/* <div className='h-full'> */}
 
-                        <Link to='/property' className='border-2 border-[#166534] bg-[#166534] text-white py-1 px-4 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300 rounded-full'>BOOK PLACE</Link>
+                    <Link to='/property' className='text-center px-5 py-1 bg-gradient-to-tr from-green-500 to-[#166534]/90 w-max text-white rounded'>Explore properties</Link>
 
-                        <Link to='/listproperty' className='border-2 border-[#166534] text-[#166534] py-1 px-4 lg:py-1.5 lg:px-6 font-semibold text-sm hover:shadow-md duration-300 rounded-full'>LIST PLACE</Link>
-
-                    </div>
+                    {/* </div> */}
 
                 </div>
 
-                <div className='lg:w-[50%] w-full hidden sm:flex md:justify-center'>
-                    <img className='w-auto md:w-[50%] lg:w-[70%]' src={Hero} alt="Image" />
-                </div>
+                <img className='w-full sm:w-[50%] lg:w-[500px] hidden sm:flex' src={Hero} alt="Image" />
 
             </div>
 

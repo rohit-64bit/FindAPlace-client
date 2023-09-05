@@ -5,8 +5,11 @@ import { CDN_SERVER_URL, SERVER_URL } from '../services/helper';
 import Compressor from 'compressorjs';
 import { CLOUDINARY_URL, CLOUD_NAME, UPLOAD_PRESET } from './../services/cloudinary';
 import MainContext from './../context/MainContext';
+import { useNavigate } from 'react-router-dom';
 
 const ListProperty = () => {
+
+    const navigate = useNavigate()
 
     const userAuthToken = localStorage.getItem('auth-token')
 
@@ -183,7 +186,7 @@ const ListProperty = () => {
 
                     // After successful CDN upload, you can proceed with other actions,
                     // such as uploading property data to the API server with image links.
-                    
+
                     const response = await fetch(`${SERVER_URL}property/create-property`, {
                         method: 'POST',
                         headers: {
@@ -205,6 +208,9 @@ const ListProperty = () => {
 
                     if (propertyResponse.success) {
 
+                        setLoadingStatus(false)
+                        navigate('/property')
+
                         setTitle('')
                         setDescription('')
                         setAddress('')
@@ -213,13 +219,12 @@ const ListProperty = () => {
                         setType('')
                         setContact('')
 
-                        setLoadingStatus(false)
-                        setNotification({ status: "true", message: `${json.message}`, type: "info" })
+                        setNotification({ status: "true", message: `${propertyResponse.message}`, type: "info" })
 
                     } else {
 
                         setLoadingStatus(false)
-                        setNotification({ status: "true", message: `${json.error}`, type: "error" })
+                        setNotification({ status: "true", message: `${propertyResponse.error}`, type: "error" })
 
                     }
 
@@ -278,6 +283,7 @@ const ListProperty = () => {
                             placeholder='Property Name'
                             value={title}
                             onChange={e => setTitle(e.target.value)}
+                            required
                         />
 
                         <textarea
@@ -287,6 +293,7 @@ const ListProperty = () => {
                             rows="3"
                             value={description}
                             onChange={e => setDescription(e.target.value)}
+                            required
                         >
                         </textarea>
 
@@ -294,9 +301,10 @@ const ListProperty = () => {
                             className='px-5 py-2 rounded-md outline outline-1 outline-green-400 focus:outline-[#166534] focus:shadow-xl lg:focus:shadow-lg duration-300 bg-gray-100 lg:bg-gray-200/50'
                             value={type}
                             onChange={e => setType(e.target.value)}
+                            required
                         >
 
-                            <option>Select Property Type</option>
+                            <option value="">Select Property Type</option>
 
                             {pTypeList?.map((data) => {
                                 return (
@@ -313,7 +321,9 @@ const ListProperty = () => {
                             className='px-5 py-2 rounded-md outline outline-1 outline-green-400 focus:outline-[#166534] focus:shadow-xl lg:focus:shadow-lg duration-300 bg-gray-100 lg:bg-gray-200/50'
                             type="text"
                             placeholder='Rent/Day'
-
+                            value={cost}
+                            onChange={e => setCost(e.target.value)}
+                            required
                         />
 
                         <input
@@ -321,6 +331,9 @@ const ListProperty = () => {
                             type="text"
                             placeholder='Contact No.'
                             pattern="[0-9]+"
+                            value={contact}
+                            onChange={e => setContact(e.target.value)}
+                            required
                         />
 
                         <textarea
@@ -328,6 +341,9 @@ const ListProperty = () => {
                             placeholder='Address'
                             cols="30"
                             rows="5"
+                            value={address}
+                            onChange={e => setAddress(e.target.value)}
+                            required
                         ></textarea>
 
                     </div>
@@ -393,16 +409,23 @@ const ListProperty = () => {
                                 : null
                         }
 
-                        <button
-                            type='submit'
-                            className={loadingStatus ? 'bg-slate-200 w-full py-1.5 font-semibold cursor-not-allowed text-black rounded-md duration-300 border border-[#166534]' : 'bg-[#166534] w-full py-1.5 font-semibold text-white rounded-md hover:shadow-md duration-300'}
-                        >
+                        {
+                            title && description && type != "" && cost && contact && address && images?.length ?
+                                <button
+                                    type='submit'
+                                    className={loadingStatus ? 'bg-slate-200 w-full py-1.5 font-semibold cursor-not-allowed text-black rounded-md duration-300 border border-[#166534]' : 'bg-[#166534] w-full py-1.5 font-semibold text-white rounded-md hover:shadow-md duration-300'}
+                                >
 
-                            {
-                                loadingStatus ? "Uploading..." : "LIST PLACE"
-                            }
+                                    {
+                                        loadingStatus ? "Uploading..." : "LIST PLACE"
+                                    }
 
-                        </button>
+                                </button>
+                                : null
+                        }
+
+
+
                     </div>
 
                 </div>

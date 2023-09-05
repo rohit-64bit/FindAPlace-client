@@ -54,7 +54,7 @@ const Items = (props) => {
 
                             </div>
 
-                            <div className="font-bold">{cost?.slice(0,4)}</div>
+                            <div className="font-bold">$ {cost}</div>
 
                         </div>
 
