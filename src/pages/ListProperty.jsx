@@ -350,8 +350,6 @@ const ListProperty = () => {
 
                 </div>
 
-                <div className='border-2 w-full px-5 lg:hidden'></div>
-
                 <div className='lg:w-[50%] flex flex-col lg:p-10 p-4 md:p-6 gap-4 justify-between'>
 
                     <div className='flex flex-col gap-3 lg:p-10'>

@@ -1,11 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Hero from '../assets/Image/hero.svg'
 import Items from '../components/Items'
 import Review from '../components/Review'
 import { Link } from 'react-router-dom'
 import { SERVER_URL } from '../services/helper'
+import MainContext from '../context/MainContext'
 
 const Home = () => {
+
+    const { contactLoader,
+        handleContact, userProfile } = useContext(MainContext)
+
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+    })
+
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const handleFormSubmit = (e) => {
+
+        e.preventDefault()
+
+        const data = {
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            type: 'contact'
+        }
+
+        handleContact(data)
+
+        setFormData({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+        })
+
+    }
 
     const [topPropertyData, setTopPropertyData] = useState([])
 
@@ -22,9 +59,25 @@ const Home = () => {
 
     }
 
+    const [reviews, setReviews] = useState([])
+
+    const fetchReviews = () => {
+
+        fetch(`${SERVER_URL}review/fetch-all`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(json => setReviews(json.data))
+
+    }
+
     useEffect(() => {
 
         fetchTopProperty()
+        fetchReviews()
 
     }, [])
 
@@ -38,37 +91,35 @@ const Home = () => {
 
                     <div className='text-black lg:text-lg'>The perfect site to book place of your choice or to rent your vacant place and earn</div>
 
-                    {/* <div className='h-full'> */}
-
                     <Link to='/property' className='text-center px-5 py-1 bg-gradient-to-tr from-green-500 to-[#166534]/90 w-max text-white rounded'>Explore properties</Link>
 
-                    {/* </div> */}
-
                 </div>
-
-                <img className='w-full sm:w-[50%] lg:w-[500px] hidden sm:flex' src={Hero} alt="Image" />
+                <img className='w-full sm:w-[50%] lg:w-[500px] hidden sm:flex p-[7%]' src={Hero} alt="Image" />
 
             </div>
 
-            <div className='bg-white flex justify-center flex-col py-4 lg:py-5 w-full'>
+            {
+                topPropertyData.length > 0 &&
+                <div className='bg-white flex justify-center flex-col py-4 lg:py-5 w-full'>
 
-                <div className='text-[#166534] text-lg font-semibold flex justify-center w-full cursor-default'>TOP RATED PLACE</div>
+                    <div className='text-[#166534] text-lg font-semibold flex justify-center w-full cursor-default'>TOP RATED PLACE</div>
 
-                <div className='grid w-full md:grid-cols-2 lg:grid-cols-4 gap-5 px-4 lg:px-5 py-5'>
+                    <div className='grid w-full md:grid-cols-2 lg:grid-cols-4 gap-5 px-4 lg:px-5 py-5'>
 
-                    {
-                        topPropertyData?.map((data) => {
-                            return (
-                                <Items key={data._id} data={data} />
-                            )
-                        })
-                    }
+                        {
+                            topPropertyData?.map((data) => {
+                                return (
+                                    <Items key={data._id} data={data} />
+                                )
+                            })
+                        }
+
+                    </div>
+
+                    <Link to='/property' className='text-center px-5 py-1 bg-gradient-to-tr from-green-500 to-[#166534]/90 w-max text-white rounded m-auto'>View More</Link>
 
                 </div>
-
-                <Link to='/property' className='text-center px-5 py-1 bg-gradient-to-tr from-green-500 to-[#166534]/90 w-max text-white rounded m-auto'>View More</Link>
-
-            </div>
+            }
 
             <div className='bg-white flex justify-center flex-col w-full py-4 lg:py-5'>
 
@@ -76,10 +127,11 @@ const Home = () => {
 
                 <div className='grid w-full md:grid-cols-2 lg:grid-cols-4 gap-5 px-4 lg:px-5 py-5'>
 
-                    <Review />
-                    <Review />
-                    <Review />
-                    <Review />
+                    {reviews?.map((data) => {
+                        return (
+                            <Review key={data._id} data={data} />
+                        )
+                    })}
 
                 </div>
 
@@ -89,19 +141,23 @@ const Home = () => {
 
                 <div className='text-[#166534] text-lg font-semibold flex justify-center py-5 cursor-default'>CONTACT US</div>
 
-                <form method='POST' className='flex flex-col items-center gap-5 w-full px-4 md:px-10'>
+                <form method='POST' onSubmit={handleFormSubmit} className='flex flex-col items-center gap-5 w-full px-4 md:px-10'>
 
                     <div className='flex flex-col md:flex-row gap-5 w-full lg:w-[40%] duration-300'>
 
-                        <input required className='px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full rounded-md' type="text" placeholder='Name' />
+                        <input required className='px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full rounded-md' type="text" placeholder='Name' name='name' value={formData.name} onChange={onChange} />
 
-                        <input required className='px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full rounded-md' type="email" placeholder='Email' />
+                        <input required className='px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full rounded-md' type="email" placeholder='Email' name='email' value={formData.email} onChange={onChange} />
 
                     </div>
 
-                    <textarea required className='lg:w-[40%] rounded-md px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full' placeholder='Message' name="" id="" cols="30" rows="7"></textarea>
+                    <input required className='lg:w-[40%] rounded-md px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full' type="text" placeholder='Subject' name='subject' value={formData.subject} onChange={onChange} />
 
-                    <button type='submit' className=' text-white bg-[#166534] lg:w-[15%] py-1.5 rounded-lg duration-300 w-full'>SUBMIT</button>
+                    <textarea required className='lg:w-[40%] rounded-md px-5 py-2 outline outline-1 outline-slate-300 focus:outline-[#166534] duration-300 w-full' placeholder='Message' name='message' value={formData.message} onChange={onChange} id="" cols="30" rows="7"></textarea>
+
+                    <button type='submit' disabled={contactLoader} className=' text-white bg-[#166534] lg:w-[15%] py-1.5 rounded-lg duration-300 w-full'>
+                        {contactLoader ? 'Sending...' : 'SUBMIT'}
+                    </button>
 
                 </form>
 

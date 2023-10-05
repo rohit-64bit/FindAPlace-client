@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import StarIcon from '@mui/icons-material/Star';
+import { SERVER_URL } from '../services/helper';
 
 const Items = (props) => {
 
-    const { title, description, location, images, cost, RatingScore, typeName } = props.data
+    const { _id, title, description, location, images, cost, RatingScore, type, totalReviews } = props.data
+
+    const [propertyType, setPropertyType] = useState({})
+
+    const fetchPropertyType = async (type) => {
+
+        const response = await fetch(`${SERVER_URL}property-type/fetch-data/${type}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+
+        const json = await response.json()
+        if (json.success) {
+            setPropertyType(json.data)
+        }
+    }
+
+    useEffect(() => {
+        fetchPropertyType(type)
+    }, [])
 
     return (
         <>
 
             <div className='w-full h-max p-4 transition-all ease-in-out rounded-xl hover:shadow-xl hover:shadow-black/20 duration-300 outline outline-1 outline-white hover:outline-gray-200'>
 
-                <Link to='/viewproperty' state={{ data: props.data }} className='w-full flex flex-col gap-2'>
+                <Link to={`/viewproperty/${_id}`} state={{ data: props.data }} className='w-full flex flex-col gap-2'>
 
                     <img
                         src={images[0]}
@@ -36,7 +59,7 @@ const Items = (props) => {
 
                             <div className="text-sm text-gray-500">
 
-                                {typeName}
+                                {propertyType?.type}
 
                             </div>
 
@@ -47,7 +70,7 @@ const Items = (props) => {
                             <div className='text-white text-sm w-max px-1.5 py-0.5 bg-green-800 rounded-md flex items-center self-end'>
 
                                 <div>
-                                    {RatingScore}
+                                    {RatingScore / totalReviews > 0 ? RatingScore / totalReviews : 0}
                                 </div>
 
                                 <StarIcon fontSize='' />

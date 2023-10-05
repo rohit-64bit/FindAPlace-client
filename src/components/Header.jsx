@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';
 import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
-
+import StyleIcon from '@mui/icons-material/Style';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import ViewListIcon from '@mui/icons-material/ViewList';
@@ -35,7 +35,7 @@ const Header = () => {
 
     const navigate = useNavigate()
 
-    const { userProfile, fetchUserProfile } = useContext(MainContext)
+    const { userProfile, fetchUserProfile, newBooking, fetchBooking, searchQuery, setSearchQuery, handlePropertySearch } = useContext(MainContext)
 
     const authToken = localStorage.getItem('auth-token')
 
@@ -71,6 +71,7 @@ const Header = () => {
 
         if (authToken) {
             fetchUserProfile()
+            fetchBooking()
         }
 
     }, [authToken])
@@ -85,7 +86,7 @@ const Header = () => {
 
                     <Link to='/' className='flex gap-2 items-center'>
 
-                        <img className='w-44 ' src={Logo} alt="Logo" />
+                        <img className='w-48' src={Logo} alt="Logo" />
 
                     </Link>
 
@@ -150,12 +151,23 @@ const Header = () => {
                                                 </div>
                                             </Link>
 
-                                            <Link to="/order">
+                                            <Link to="/listing">
                                                 <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
 
                                                     {/* <ViewStreamIcon className='' style={{ fontSize: 25 }} /> */}
 
                                                     <p className='text-base'>Manage Listings</p>
+                                                </div>
+                                            </Link>
+
+                                            <Link to="/list-bookings">
+                                                <div className='px-3 py-2 w-full gap-2 hover:bg-slate-100 flex items-center duration-300 rounded hover:shadow'>
+
+                                                    {/* <ViewStreamIcon className='' style={{ fontSize: 25 }} /> */}
+
+                                                    <p className='text-base'>Manage Bookings</p>
+
+                                                    <p className='rounded-full text-center text-white bg-red-600 text-xs h-[18px] w-[18px] flex items-center justify-center'>{newBooking}</p>
                                                 </div>
                                             </Link>
 
@@ -200,7 +212,7 @@ const Header = () => {
                 <div className='flex md:hidden justify-between items-center p-4'>
 
                     <Link to='/'>
-                        <img className='w-32' src={Logo} alt="Logo" />
+                        <img className='w-36' src={Logo} alt="Logo" />
                     </Link>
 
                     <button onClick={navBarOpen ? handleClose : handleOpen} className='flex gap-1 flex-col'>
@@ -225,9 +237,9 @@ const Header = () => {
                             {
                                 authToken ?
                                     <>
-                                        < Link to='/property' onClick={handleClose} className='w-full py-1 text-center border rounded' >
+                                        <Link to='/property' onClick={handleClose} className='w-full py-1 text-center border rounded' >
                                             Book a place
-                                        </Link >
+                                        </Link>
 
                                         <Link to="/listproperty" onClick={handleClose} className='w-full py-1 text-center border rounded'>
                                             List your place
@@ -237,28 +249,41 @@ const Header = () => {
 
                                         <Link to="/profile" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <PersonIcon className='text-gray-700'/>
+                                            <PersonIcon className='text-gray-700' />
 
                                             Edit Profile
                                         </Link>
 
                                         <Link to="/order" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <LocalMallIcon className='text-gray-700'/>
+                                            <LocalMallIcon className='text-gray-700' />
 
                                             My Orders
                                         </Link>
 
-                                        <Link to="/order" onClick={handleClose} className='flex gap-2 py-2'>
+                                        <Link to="/listing" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <ViewListIcon className='text-gray-700'/>
+                                            <ViewListIcon className='text-gray-700' />
 
-                                            Manage Listings
+                                            My Listings
+                                        </Link>
+
+                                        <Link to="/list-bookings" onClick={handleClose} className='flex gap-2 py-2 items-center justify-between'>
+
+                                            <div className='flex gap-2 items-center'>
+
+                                                <StyleIcon className='text-gray-700' />
+
+                                                Manage Bookings
+                                            </div>
+
+                                            <p className='rounded-full text-center text-white bg-red-600 text-xs h-[18px] w-[18px] flex items-center justify-center'>{newBooking}</p>
+
                                         </Link>
 
                                         <Link to="/help" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <LiveHelpIcon className='text-gray-700'/>
+                                            <LiveHelpIcon className='text-gray-700' />
 
                                             Help & Support
                                         </Link>
@@ -273,7 +298,7 @@ const Header = () => {
                                             className='flex gap-2 py-2'
                                         >
 
-                                            <LogoutIcon className='text-gray-700'/>
+                                            <LogoutIcon className='text-gray-700' />
 
                                             Logout
 
@@ -293,14 +318,14 @@ const Header = () => {
 
                                         <Link to="/login" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <PersonIcon className='text-gray-700'/>
+                                            <PersonIcon className='text-gray-700' />
 
                                             Login
                                         </Link>
 
                                         <Link to="/signup" onClick={handleClose} className='flex gap-2 py-2'>
 
-                                            <PersonAddAlt1Icon className='text-gray-700'/>
+                                            <PersonAddAlt1Icon className='text-gray-700' />
 
                                             Signup
                                         </Link>
@@ -326,18 +351,22 @@ const Header = () => {
                             null
                             :
                             <div className='h-12 flex justify-center w-full my-1'>
-                                <div className='flex justify-center items-center h-full w-[90%] md:w-[80%] lg:w-[50%] shadow-md rounded-full gap-3 p-1 border-2'>
+                                <form method='POST' onSubmit={handlePropertySearch} className='flex justify-center items-center h-full w-[90%] md:w-[80%] lg:w-[50%] shadow-md rounded-full gap-3 p-1 border-2'>
+
                                     <div className='flex w-full '>
-                                        <input type="text" className='bg-transparent px-3 py-2 outline-none w-full' placeholder='Search for Location...' />
+                                        <input type="text" value={searchQuery}
+                                            onChange={e => setSearchQuery(e.target.value)} className='bg-transparent px-3 py-2 outline-none w-full' placeholder='Search for Location...' />
                                     </div>
-                                    <button className='flex items-center bg-[#208f4b] rounded-full p-1.5 md:p-2 text-white'>
+
+                                    <button type='submit' disabled={!searchQuery.length} className='flex items-center bg-[#208f4b] rounded-full p-1.5 md:p-2 text-white disabled:hidden'>
 
                                         <SearchIcon />
 
                                         <div className='hidden md:block'>SEARCH</div>
 
                                     </button>
-                                </div>
+
+                                </form>
                             </div>
 
                 }
