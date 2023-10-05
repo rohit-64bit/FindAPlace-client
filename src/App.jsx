@@ -43,8 +43,6 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
 
-          {/* <Route path="/help" element={<ContactUs />}></Route> */}
-
           <Route path="/verify-auth" element={
             <TfaRoute>
               <VerifyOtp />
