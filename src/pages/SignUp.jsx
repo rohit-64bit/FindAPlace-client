@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import SignupImage from '../assets/Image/signup2.png'
+import SignupImage from '../assets/Image/signUp2.png'
 import { SERVER_URL } from './../services/helper';
 import MainContext from '../context/MainContext';
 
