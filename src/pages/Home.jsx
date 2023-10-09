@@ -167,7 +167,7 @@ const Home = () => {
 
                 <div className='p-5 flex flex-col items-center w-full md:w-[75%] lg:w-[25%]'>
 
-                    <div className='flex text-center py-3 font-semibold text-black/60'>" Discover your dream stay with ease at [Your Website Name] – where unforgettable getaways begin. "</div>
+                    <div className='flex text-center py-3 font-semibold text-black/60'>" Discover the best place with ease at ProxiPlays.com – where unforgettable getaways begin. "</div>
 
                     {/* <div className='text-black font-bold text-lg'>OWNER NAME</div> */}
 
