@@ -31,16 +31,16 @@ const Footer = () => {
 
             </div>
 
-            <div className='bg-slate-300 flex justify-between items-center py-1 px-5 md:px-16'>
+            <div className='bg-slate-300 flex items-center py-1 px-5 md:px-16'>
 
-                <div className='text-black sm:font-semibold text-sm md:font-medium'>©2023 Book A Place.com </div>
+                <div className='text-black text-sm md:font-medium m-auto'>©2023 ProxiPlays.com</div>
 
-                <div className='text-black/70 flex gap-3 md:gap-6 text-sm md:font-medium'>
+                {/* <div className='text-black/70 flex gap-3 md:gap-6 text-sm md:font-medium'>
 
                     <Link><FacebookIcon /></Link>
                     <Link><InstagramIcon /></Link>
 
-                </div>
+                </div> */}
 
             </div>
 
